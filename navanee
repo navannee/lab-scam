@@ -1,0 +1,150 @@
+Fcfs 
+
+
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct pcb{
+    int burst_time;
+    int process_id;
+    int arrival_time;
+    struct pcb *prev, *next;
+}pcb;
+
+int main(){
+   pcb *head = (pcb *) malloc(sizeof(pcb));
+    int n,j,i,quantum,tempvar = 0,wait=0;
+    float sum=0.0f;
+    pcb *pre = (pcb *) malloc(sizeof(pcb));
+    printf("Enter number of processes :");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        pcb *temp = (pcb *) malloc(sizeof(pcb));
+        temp->prev = temp->next = NULL;
+        printf("Enter procId :");
+        scanf("%d",&(temp->process_id));
+        printf("Enter cpuBurst :");
+        scanf("%d",&(temp->burst_time));
+        if (i==0){
+            head =temp;
+        }
+        else{
+            pre->next = temp;
+            temp->prev = pre;
+        }
+        pre=temp;
+    }
+    pre->next =head;
+    head->prev =pre;
+    pcb *tempp = (pcb*)malloc(sizeof(pcb));
+    tempp = head;
+    int waittime = 0;
+    printf("The waiting time of process id 1 is %d \n", waittime);
+    for(i=0;i<n-1;i++){
+        waittime=waittime+tempp->burst_time;
+        printf("the waiting time of process id %d is %d \n", (tempp->process_id)+1, waittime);
+        tempp = tempp->next;
+    }
+    printf("The average waiting time of the process are %d \n",waittime/n);
+    
+}
+
+
+
+
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct pcb{
+    int burst_time;
+    int process_id;
+    int arrival_time;
+    int waiting_time;
+    struct pcb *prev, *next;
+}pcb;
+
+int main(){
+   pcb *head = (pcb *) malloc(sizeof(pcb));
+    int n,j,i,quantum,tempvar = 0,wait=0;
+    int sum;
+    pcb *pre = (pcb *) malloc(sizeof(pcb));
+    printf("Enter number of processes :");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        pcb *temp = (pcb *) malloc(sizeof(pcb));
+        temp->prev = temp->next = NULL;
+        printf("Enter procId :");
+        scanf("%d",&(temp->process_id));
+        printf("Enter cpuBurst :");
+        scanf("%d",&(temp->burst_time));
+        if (i==0){
+            head =temp;
+        }
+        else{
+            pre->next = temp;
+            temp->prev = pre;
+        }
+        pre=temp;
+    }
+    pre->next =head;
+    head->prev =pre;
+    pcb *tempp = (pcb*)malloc(sizeof(pcb));
+    tempp = head;
+    int waittime = 0;
+    printf("The waiting time of process id 1 is %d \n", waittime);
+    for(i=0;i<n-1;i++){
+        tempp->waiting_time = waittime;
+        sum += waittime;
+        waittime=waittime+tempp->burst_time;
+        printf("the waiting time of process id %d is %d \n", (tempp->process_id)+1, waittime);
+        tempp = tempp->next;
+        
+    }
+    printf("The average waiting time of the process are %d \n",sum/n);
+    
+    printf("The linked list before sorting \n");
+    tempp=head;
+    for(i=0;i<n;i++){
+        printf("process id %d has burst time of %d and waiting time is %d\n", tempp->process_id , tempp->burst_time, tempp->waiting_time);
+        tempp = tempp->next;
+    }
+    
+    //sorting process 
+    
+    for(i=0;i<n;i++){
+        tempp= head;
+        for (int j=1;j<n;j++){
+            if (tempp->burst_time > tempp->next->burst_time){
+                int ptemp = tempp->process_id;
+                int btemp = tempp-> burst_time;
+                int wtemp = tempp->waiting_time;
+                tempp->process_id = tempp->next->process_id;
+                tempp->burst_time = tempp->next->burst_time;
+                tempp->waiting_time = tempp->next->waiting_time;
+                tempp->next->process_id = ptemp;
+                tempp->next->waiting_time = wtemp;
+                tempp->next->burst_time = btemp;
+            }
+            tempp=tempp->next;
+        }
+    }
+    printf("The linked list after sorting \n");
+    tempp=head;
+    for(i=0;i<n;i++){
+        printf("process id %d has burst time of %d and waiting time is %d\n", tempp->process_id , tempp->burst_time, tempp->waiting_time);
+        tempp = tempp->next;
+    }
+    
+    
+    
+}
+
+
+
+
+
+
+
